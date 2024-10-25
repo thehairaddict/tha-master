@@ -1,0 +1,15 @@
+<?xml version='1.0' encoding='utf-8'?>
+<odoo>
+    <record forcecreate="True" id="ir_extra_status_sync" model="ir.cron">
+        <field name="name">Extra State Sync</field>
+        <field name="model_id" ref="tha_cron.model_sale_order"/>
+        <field name="state">code</field>
+        <field name="code">model.extra_status_sync(1)</field>
+        <field name="user_id" ref="base.user_root"/>
+        <field name="interval_number">1</field>
+        <field name="interval_type">minutes</field>
+        <field name="numbercall">-1</field>
+        <field name="doall">"1"</field>
+        <field name="active" eval="False"/>
+    </record>
+</odoo>

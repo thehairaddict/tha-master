@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <template id="report_picking_batch_product">
+            <t t-call="web.html_container">
+                <t t-foreach="docs" t-as="o">
+                    <t t-set="move_line_ids" t-value="o.picking_ids.mapped('move_line_ids')"/>
+                    <t t-call="web.external_layout">
+                        <div class="page">
+                            <div class="d-flex">
+                                <div>
+                                    <h3>Summary:
+                                        <span t-field="o.name"/>
+                                    </h3>
+                                </div>
+                                <div class="mr-auto">
+                                    <div t-field="o.name"
+                                         t-options="{'widget': 'barcode', 'width': 600, 'height': 150, 'img_style': 'width:300px;height:50px;'}"/>
+                                </div>
+                            </div>
+                            <div t-if="o.user_id">
+                                <strong>Responsible:</strong>
+                                <span t-field="o.user_id"/>
+                            </div>
+                            <br/>
+                            <table class="table table-condensed">
+                                <thead>
+                                    <tr>
+                                        <th>Transfer</th>
+                                        <th>Barcode</th>
+                                        <th>Status</th>
+                                        <th>Scheduled Date</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr t-foreach="o.picking_ids" t-as="pick">
+                                        <td>
+                                            <span t-field="pick.name"/>
+                                        </td>
+                                        <td>
+                                            <div t-field="pick.name"
+                                                 t-options="{'widget': 'barcode', 'quiet': 0, 'width': 400, 'height': 100, 'img_style': 'width:200px;height:50px;'}"/>
+                                        </td>
+                                        <td>
+                                            <span t-field="pick.state"/>
+                                        </td>
+                                        <td>
+                                            <span t-field="pick.scheduled_date"/>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <p style="page-break-after: always;"/>
+                            <h3>
+                                <span t-field="o.name"/>
+                            </h3>
+                            <div t-if="o.user_id">
+                                <strong>Responsible:</strong>
+                                <span t-field="o.user_id"/>
+                            </div>
+                            <div t-if="o.carrier_ids">
+                                <strong>Carrier:</strong>
+                                <t t-foreach="o.carrier_ids" t-as="carrier">
+                                    <span t-field="carrier.name"/>
+                                </t>
+                            </div>
+                            <br/>
+                            <t t-set="total_price" t-value="0.0"/>
+                            <t t-set="total_items" t-value="0.0"/>
+                            <table class="table table-condensed">
+                                <thead>
+                                    <tr>
+                                        <th>Product</th>
+                                        <th>Quantity</th>
+                                    </tr>
+                                </thead>
+                                <t t-set="products" t-value="list(set(move_line_ids.mapped('product_id')))"/>
+                                <tbody>
+                                    <tr t-foreach="products" t-as="product">
+                                        <t t-set="move_line"
+                                           t-value="move_line_ids.filtered(lambda x: x.product_id==product)"/>
+                                        <td>
+                                            <span t-field="move_line[0].display_name"/>
+                                        </td>
+                                        <td>
+                                            <span t-esc="sum(move_line.mapped('qty_done'))"/>
+                                            <span t-field="move_line[0].uom_id" groups="move_line[0].group_uom"/>
+                                        </td>
+                                        <t t-set="total_price"
+                                           t-value="total_price + sum(move_line.mapped('sale_price'))"/>
+                                        <t t-set="total_items"
+                                           t-value="total_items + sum(move_line.mapped('qty_done'))"/>
+                                    </tr>
+                                </tbody>
+                            </table>
+
+                            <table class="table table-sm">
+                                <tr class="border-black o_total">
+                                    <td>
+                                        <strong>Total Price</strong>
+                                    </td>
+                                    <td class="text-right">
+                                        <span t-esc="total_price"/>
+                                    </td>
+                                </tr>
+                                <tr class="border-black o_total">
+                                    <td>
+                                        <strong>Total Items</strong>
+                                    </td>
+                                    <td class="text-right">
+                                        <span t-esc="total_items"/>
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+                    </t>
+                </t>
+            </t>
+        </template>
+    </data>
+</odoo>

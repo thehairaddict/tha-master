@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <!-- start the sales order inherit from view -->
+    <record model="ir.ui.view" id="delivery_carrier_form_view_inherit">
+        <field name="name">delivery.carrier.form.view.inherit</field>
+        <field name="model">delivery.carrier</field>
+        <field name="inherit_id" ref="delivery.view_delivery_carrier_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='delivery_type']" position="after">
+                <field name="zone_ids" widget="many2many_tags" options="{'no_create_edit': True}"/>
+                <group>
+                    <field name="is_primary_carrier"/>
+                    <field name="is_international_carrire"/>
+                </group>
+            </xpath>
+        </field>
+    </record>
+</odoo>

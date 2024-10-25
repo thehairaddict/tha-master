@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <template id="report_invoice_with_payments_order_code" inherit_id="account.report_invoice_document">
+		<!-- <xpath expr='//t[@t-set="address"]' position="replace">
+			  <address t-field="o.partner_id" t-options='{"widget": "contact", "fields": ["address", "name"], "no_marker": True}' />
+                <div t-if="o.partner_id.vat" class="mt16">
+					<t t-if="o.company_id.account_fiscal_country_id.vat_label" t-esc="o.company_id.account_fiscal_country_id.vat_label" id="inv_tax_id_label"/>
+					<t t-else="">Tax ID</t>: <span t-field="o.partner_id.vat"/>
+				</div>
+		</xpath> -->
+		
+		<!-- <xpath expr='//th[@name="th_taxes"]' position="replace">
+		
+		</xpath>
+		
+		
+		<xpath expr='//tbody[@class="invoice_tbody"]/t[3]/tr/t[1]/t[5]' position="replace">
+		
+		</xpath> -->
+	
+        <xpath expr='//div[@id="informations"]' position="before">
+            <div class="row mt32 mb32">
+                <div class="col-auto col-3 mw-100 mb-2" t-if="o.partner_id.phone" name="phone">
+                    <strong>Phone:</strong>
+                    <p class="m-0" t-field="o.partner_id.phone"/>
+                </div>
+            </div>
+        </xpath>
+		<xpath expr='//div[@id="informations"]' position="after">
+            <div class="row mt32 mb32">
+                <div class="col-auto col-3 mw-100 mb-2" t-if="o.tha_order_code" name="tha_order_code">
+                    <strong>Order Code:</strong>
+                    <p class="m-0" t-field="o.tha_order_code"/>
+                </div>
+                <div class="col-auto col-3 mw-100 mb-2" t-if="o.payment_method" name="payment_method">
+                    <strong>Payment Method:</strong>
+                    <p class="m-0" t-field="o.payment_method"/>
+                </div>
+            </div>
+        </xpath>
+    </template>
+
+    <!--    <report id="journal_entry_report_id"-->
+    <!--			string="Print Journal" model="account.move"-->
+    <!--			report_type="qweb-pdf"-->
+    <!--			file="account.report_invoice_document"-->
+    <!--			name="account.report_invoice_document"-->
+    <!--			paperformat="tha_integration.paperformat_landscape"/>-->
+    <!--    -->
+<!--    <record id="journal_entry_report_id" model="ir.actions.report">-->
+<!--        <field name="name">Print Journal</field>-->
+<!--        <field name="model">account.move</field>-->
+<!--        <field name="report_type">qweb-pdf</field>-->
+<!--        <field name="report_name">account.report_invoice_with_payments</field>-->
+<!--        <field name="report_file">account.report_invoice_with_payments</field>-->
+<!--        <field name="paperformat_id" ref="tha_integration.paperformat_landscape"/>-->
+<!--        <field name="binding_model_id" ref="model_account_move"/>-->
+<!--        <field name="binding_type">report</field>-->
+<!--    </record>-->
+
+    <!-- <record id="account.account_invoices" model="ir.actions.report">
+        <field name="paperformat_id" ref="tha_integration.custom_paper_format"/>
+    </record> -->
+</odoo>

@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <!-- start the product product inherit from view -->
+    <record model="ir.ui.view" id="product_product_inherit_view">
+        <field name="name">product.product.inherit.view</field>
+        <field name="model">product.product</field>
+        <field name="inherit_id" ref="product.product_normal_form_view"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='default_code']" position="after">
+                <field name="tha_product_id"/>
+            </xpath>
+        </field>
+    </record>
+</odoo>

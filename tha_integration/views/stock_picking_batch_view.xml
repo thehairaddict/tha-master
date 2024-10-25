@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <!-- start the sales order inherit from view -->
+    <record model="ir.ui.view" id="stock_picking_batch_form_view_inherit">
+        <field name="name">stock.picking.batch.form.view.inherit</field>
+        <field name="model">stock.picking.batch</field>
+        <field name="inherit_id" ref="stock_picking_batch.stock_picking_batch_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//button[@name='action_print']" position="after">
+                <button name="do_print_product" states="in_progress,done" string="Products" type="object"/>
+            </xpath>
+            <xpath expr="//field[@name='scheduled_date']" position="after">
+                <field name="carrier_ids" widget="many2many_tags"/>
+            </xpath>
+        </field>
+    </record>
+</odoo>

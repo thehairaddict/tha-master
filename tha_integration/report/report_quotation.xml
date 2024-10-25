@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <template id="report_saleorder_document_order_code" inherit_id="sale.report_saleorder_document">
+        <xpath expr='//t[@t-set="address"]' position="replace"></xpath>
+        <xpath expr='//t/t[3]' position="replace">
+            <!--            <t t-if="doc.partner_invoice_id">-->
+            <!--                <strong>Shipping Address:</strong>-->
+            <!--                <div t-field="doc.partner_invoice_id"-->
+            <!--                     t-options='{"widget": "contact", "fields": ["address", "name", "mobile"], "no_marker": True, "phone_icons": True}'/>-->
+            <!--            </t>-->
+            <!--            <t t-if="doc.address">-->
+            <strong>Shipping Address:</strong>
+            <p>
+                <t t-if="doc.customer_name">
+                    <span t-field="doc.customer_name"/>
+                    <br/>
+                </t>
+                <t t-if="doc.address">
+                    <span t-field="doc.address"/>
+                    <br/>
+                </t>
+                <t t-if="doc.city_order">
+                    <span t-field="doc.city_order"/>,
+                    <span t-field="doc.state_order"/>
+                    <br/>
+                </t>
+                <t t-if="doc.country_order">
+                    <span t-field="doc.country_order"/>
+                    <br/>
+                </t>
+                <t t-if="doc.customer_phone">
+                    <span t-field="doc.customer_phone"/>
+                    <br/>
+                </t>
+            </p>
+            <!--            </t>-->
+        </xpath>
+        <xpath expr='//th[@name="th_taxes"]' position="replace">
+        </xpath>
+        <xpath expr='//td[@name="td_taxes"]' position="replace">
+        </xpath>
+        <xpath expr='//th[@name="th_subtotal"]' position="replace">
+        </xpath>
+        <xpath expr='//td[@name="td_subtotal"]' position="replace">
+        </xpath>
+        <xpath expr='//td[@name="td_name"]' position="replace">
+            <td name="td_name">
+                <span t-field="line.product_id.name"/>
+            </td>
+        </xpath>
+        <xpath expr='//div[@id="informations"]' position="inside">
+            <div class="col-auto col-3 mw-100 mb-2" t-if="doc.carrier_id" name="carrier_id">
+                <strong>Carrier:</strong>
+                <p class="m-0" t-field="doc.carrier_id.name"/>
+            </div>
+        </xpath>
+        <xpath expr='//div[@id="informations"]' position="after">
+            <div class="row mt32 mb32">
+                <div class="col-auto col-3 mw-100 mb-2" t-if="doc.tha_order_code" name="tha_order_code">
+                    <strong>Order Code:</strong>
+                    <p class="m-0" t-field="doc.tha_order_code"/>
+                </div>
+                <div class="col-auto col-3 mw-100 mb-2" t-if="doc.payment_method" name="payment_method">
+                    <strong>Payment Method:</strong>
+                    <p class="m-0" t-field="doc.payment_method"/>
+                </div>
+            </div>
+        </xpath>
+
+        <xpath expr='//div[@t-if="doc.user_id.name"]' position="replace">
+        </xpath>
+
+        <xpath expr='//div[hasclass("page")]/div[@name="so_total_summary"]/div/div/table' position="replace">
+            <table class="table table-sm">
+                <tr class="border-black o_total">
+                    <td>
+                        <strong>Total</strong>
+                    </td>
+                    <td class="text-right">
+                        <span
+                                t-esc="current_subtotal"
+                                t-options='{"widget": "monetary", "display_currency": doc.pricelist_id.currency_id}'
+                        />
+                    </td>
+                </tr>
+            </table>
+        </xpath>
+    </template>
+
+    <record id="sale.action_report_saleorder" model="ir.actions.report">
+        <field name="paperformat_id" ref="tha_integration.custom_paper_format"/>
+        <!--        <field name="paperformat_id" ref="base.paperformat_euro"/>-->
+    </record>
+</odoo>
